@@ -213,7 +213,9 @@ function ModulesSection() {
             return (
               <div key={i} className="rounded-2xl border transition-all overflow-hidden"
                    style={isOpen ? {borderColor: `${ACC}66`, background: ACC_SOFT} : {borderColor: 'rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.02)'}}>
-                <button onClick={()=>setOpen(isOpen?-1:i)} className="w-full text-left p-6 md:p-8">
+                <div onClick={()=>setOpen(isOpen?-1:i)} role="button" tabIndex={0}
+                     onKeyDown={(e)=>{ if(e.key==='Enter'||e.key===' '){e.preventDefault();setOpen(isOpen?-1:i);} }}
+                     className="w-full text-left p-6 md:p-8 cursor-pointer select-none hover:bg-white/[0.02] transition-colors">
                   <div className="flex items-start gap-5">
                     <div className="w-12 h-12 rounded-xl flex items-center justify-center font-display font-bold text-lg flex-shrink-0"
                          style={{background: isOpen?ACC:'rgba(255,255,255,0.05)', color: isOpen?'#050a14':ACC}}>
@@ -230,7 +232,14 @@ function ModulesSection() {
                           <Icon.chevron className={`w-5 h-5 transition-transform ${isOpen?'rotate-180':''}`} style={{color: isOpen?ACC:'rgba(255,255,255,0.4)'}}/>
                         </div>
                       </div>
-                      {isOpen && (
+                    </div>
+                  </div>
+                </div>
+                {isOpen && (
+                  <div className="px-6 md:px-8 pb-6 md:pb-8 pl-[4.5rem] md:pl-[5rem] border-t space-y-6 animate-fade-up cursor-text select-text"
+                       style={{borderColor: `${ACC}33`, paddingTop: '1.5rem'}}
+                       onClick={(e)=>e.stopPropagation()}>
+                    {(true) && (
                         <div className="mt-6 pt-6 border-t space-y-6 animate-fade-up" style={{borderColor: `${ACC}33`}}>
                           <div>
                             <div className="flex items-center gap-2 mb-3">
@@ -286,9 +295,8 @@ function ModulesSection() {
                           )}
                         </div>
                       )}
-                    </div>
                   </div>
-                </button>
+                )}
               </div>
             );
           })}
@@ -535,7 +543,9 @@ function CurriculumSection() {
             return (
               <div key={i} className="rounded-2xl border transition-all overflow-hidden"
                    style={isOpen ? {borderColor: `${ACC}66`, background: ACC_SOFT} : {borderColor: 'rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.02)'}}>
-                <button onClick={()=>setOpen(isOpen?-1:i)} className="w-full text-left p-6 md:p-7">
+                <div onClick={()=>setOpen(isOpen?-1:i)} role="button" tabIndex={0}
+                     onKeyDown={(e)=>{ if(e.key==='Enter'||e.key===' '){e.preventDefault();setOpen(isOpen?-1:i);} }}
+                     className="w-full text-left p-6 md:p-7 cursor-pointer select-none hover:bg-white/[0.02] transition-colors">
                   <div className="flex items-start gap-5">
                     <div className="w-20 flex-shrink-0">
                       <div className="text-[10px] tracking-[0.25em] uppercase mb-1" style={{color: ACC}}>{w.w}</div>
@@ -556,7 +566,7 @@ function CurriculumSection() {
                       </div>
 
                       {isOpen && (
-                        <div className="mt-6 pt-6 border-t space-y-6 animate-fade-up" style={{borderColor: `${ACC}33`}}>
+                        <div className="mt-6 pt-6 border-t space-y-6 animate-fade-up cursor-text select-text" style={{borderColor: `${ACC}33`}} onClick={(e)=>e.stopPropagation()}>
                           {w.tasks && w.tasks.length>0 && (
                             <div>
                               <div className="text-[10px] tracking-[0.3em] uppercase mb-3" style={{color: ACC}}>Focus · 本阶段重点</div>
@@ -620,7 +630,7 @@ function CurriculumSection() {
                       )}
                     </div>
                   </div>
-                </button>
+                </div>
               </div>
             );
           })}
