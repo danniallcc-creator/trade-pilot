@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Level 02 · 新手成长营 | 外贸领航者</title>
+<meta name="description" content="外贸新手成长站：客户开发进阶、B2B 深度运营、独立站与 SEO、商务谈判、供应链、合规风控。8 周 56 课时 78 个知识点，让你站住脚。" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.24.7/babel.min.js"></script>
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<script src="_shared.js"></script>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel" data-presets="react">
+const { useState, useEffect } = React;
+const TIER_ID = 'l2';
+const D = window.TIER_DATA[TIER_ID];
+const ACC = D.accentHex;
+const ACC_SOFT = D.accentSoft;
+const ACC_SOFT_STRONG = D.accentSoftStrong;
+
+/* ---------- Icons ---------- */
+const Icon = {
+  compass: (p) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...p}><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>,
+  arrow: (p) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...p}><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>,
+  arrowLeft: (p) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...p}><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>,
+  check: (p) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...p}><polyline points="20 6 9 17 4 12"/></svg>,
+  chevron: (p) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...p}><polyline points="6 9 12 15 18 9"/></svg>,
+  spark: (p) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...p}><path d="M12 2v6M12 16v6M4 12H2M22 12h-2M6 6l-1.4-1.4M19.4 19.4L18 18M6 18l-1.4 1.4M19.4 4.6L18 6"/></svg>,
+  target: (p) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...p}><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>,
+  book: (p) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...p}><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>,
+  clock: (p) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...p}><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>,
+  download: (p) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...p}><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>,
+  play: (p) => <svg viewBox="0 0 24 24" fill="currentColor" {...p}><polygon points="6 4 20 12 6 20 6 4"/></svg>,
+};
+
+/* ---------- NAV ---------- */
+function Nav() {
+  return (
+    <header className="fixed top-0 inset-x-0 z-50 backdrop-blur-xl bg-ink-950/70 border-b border-white/5">
+      <div className="max-w-7xl mx-auto px-6 lg:px-10 h-16 flex items-center justify-between">
+        <a href="index.html" className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center shadow-gold-glow">
+            <Icon.compass className="w-5 h-5 text-ink-950"/>
+          </div>
+          <div className="leading-tight">
+            <div className="font-display text-lg font-bold gold-text">外贸领航者</div>
+            <div className="text-[10px] tracking-[0.25em] text-cream-200/60 uppercase">TRADE PILOT</div>
+          </div>
+        </a>
+        <nav className="hidden md:flex items-center gap-6 text-sm">
+          <a href="level1.html" className={`transition-colors ${TIER_ID==='l1'?'text-gold-300':'text-cream-200/70 hover:text-cream-50'}`}>L1 · 小白</a>
+          <a href="level2.html" className={`transition-colors ${TIER_ID==='l2'?'text-gold-300':'text-cream-200/70 hover:text-cream-50'}`}>L2 · 新手</a>
+          <a href="level3.html" className={`transition-colors ${TIER_ID==='l3'?'text-gold-300':'text-cream-200/70 hover:text-cream-50'}`}>L3 · 高手</a>
+          <span className="w-px h-4 bg-white/10"/>
+          <a href="index.html#tools" className="text-cream-200/70 hover:text-cream-50 transition-colors">工具库</a>
+          <a href="index.html#panel" className="text-cream-200/70 hover:text-cream-50 transition-colors">专家圆桌</a>
+        </nav>
+        <a href="index.html" className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-white/10 text-cream-100 text-sm hover:bg-white/5 transition-all">
+          <Icon.arrowLeft className="w-4 h-4"/> 返回首页
+        </a>
+      </div>
+    </header>
+  );
+}
+
+/* ---------- BREADCRUMB ---------- */
+function Breadcrumb() {
+  return (
+    <div className="max-w-7xl mx-auto px-6 lg:px-10 pt-24 pb-4">
+      <div className="flex items-center gap-2 text-xs text-cream-200/50">
+        <a href="index.html" className="hover:text-cream-100 transition-colors">首页</a>
+        <span>/</span>
+        <a href="index.html#tiers" className="hover:text-cream-100 transition-colors">三层能力</a>
+        <span>/</span>
+        <span className="text-gold-300">{D.tier} · {D.title}</span>
+      </div>
+    </div>
+  );
+}
+
+/* ---------- HERO ---------- */
+function Hero() {
+  return (
+    <section className="relative overflow-hidden bg-gradient-hero pb-24 pt-8">
+      <div className="absolute inset-0 grid-lines opacity-30"/>
+      <div className="absolute inset-0" style={{background: `radial-gradient(ellipse at 20% 30%, ${ACC_SOFT_STRONG} 0%, transparent 55%)`}}/>
+      <div className="absolute inset-0 bg-gradient-radial-gold opacity-40"/>
+
+      <div className="relative max-w-7xl mx-auto px-6 lg:px-10 pt-8">
+        <div className="grid lg:grid-cols-12 gap-12 items-start">
+          <div className="lg:col-span-8">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border mb-8 animate-fade-in"
+                 style={{background: ACC_SOFT, borderColor: `${ACC}55`}}>
+              <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{background: ACC}}/>
+              <span className="text-xs tracking-widest uppercase" style={{color: ACC}}>{D.tier} · Growth Track</span>
+            </div>
+
+            <div className="flex items-baseline gap-4 mb-6 animate-fade-up">
+              <span className="font-display text-7xl md:text-8xl font-bold" style={{color: ACC}}>02</span>
+              <div className="font-display text-4xl md:text-5xl gold-text font-bold">{D.title}</div>
+            </div>
+
+            <h1 className="font-display text-4xl md:text-6xl font-bold text-cream-50 leading-[1.1] animate-fade-up" style={{animationDelay:'.1s'}}>
+              第二年真正 <span className="gold-text">"{D.subtitle}"</span><br/>
+              让出单成为可控节奏
+            </h1>
+
+            <p className="mt-8 text-lg text-cream-200/75 leading-relaxed max-w-2xl animate-fade-up" style={{animationDelay:'.2s'}}>
+              {D.description}
+            </p>
+
+            <div className="mt-10 flex flex-wrap gap-4 animate-fade-up" style={{animationDelay:'.3s'}}>
+              <a href="#modules" className="group inline-flex items-center gap-3 px-7 py-4 rounded-md font-bold transition-all shadow-gold-glow"
+                 style={{background: ACC, color: '#050a14'}}>
+                查看 6 大模块 <Icon.arrow className="w-5 h-5 group-hover:translate-x-1 transition-transform"/>
+              </a>
+              <a href="#curriculum" className="inline-flex items-center gap-3 px-7 py-4 rounded-md border border-cream-200/20 text-cream-100 hover:bg-cream-100/5 transition-all">
+                <Icon.book className="w-5 h-5"/> 8 周训练营大纲
+              </a>
+            </div>
+
+            <div className="mt-14 grid grid-cols-2 md:grid-cols-4 gap-6 animate-fade-up" style={{animationDelay:'.4s'}}>
+              <StatBig label="适用阶段" value={D.tag} isText/>
+              <StatBig label="核心模块" value={D.stat.modules} suffix="个"/>
+              <StatBig label="总课时" value={D.stat.hours} suffix="课时"/>
+              <StatBig label="实操知识点" value={D.stat.lessons} suffix="个"/>
+            </div>
+          </div>
+
+          {/* Right column: outcome card */}
+          <div className="lg:col-span-4 animate-fade-up" style={{animationDelay:'.25s'}}>
+            <div className="sticky top-24 rounded-2xl border p-8 backdrop-blur-sm shadow-ink-elevate card-glow"
+                 style={{background: 'rgba(15, 30, 58, 0.6)', borderColor: `${ACC}44`}}>
+              <div className="flex items-center gap-2 mb-4">
+                <Icon.target className="w-5 h-5" style={{color: ACC}}/>
+                <span className="text-[10px] tracking-[0.3em] uppercase text-cream-200/60">Graduation Outcome</span>
+              </div>
+              <div className="font-display text-2xl text-cream-50 leading-snug mb-6">
+                毕业标准
+              </div>
+              <p className="text-cream-100/85 leading-relaxed">{D.outcome}</p>
+
+              <div className="mt-8 pt-6 border-t border-white/10">
+                <div className="text-[10px] tracking-[0.3em] uppercase text-cream-200/60 mb-3">你会掌握</div>
+                <ul className="space-y-2">
+                  {['独立站上线并跑通 SEO','海关数据精准挖掘客户','P4P 投放 ROI 可控','L/C 审证 & 合规把关'].map((s,i)=>(
+                    <li key={i} className="flex items-start gap-2 text-sm text-cream-200/80">
+                      <Icon.check className="w-4 h-4 mt-0.5 flex-shrink-0" style={{color: ACC}}/>
+                      <span>{s}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function StatBig({ label, value, suffix, isText }) {
+  return (
+    <div className="border-l pl-4" style={{borderColor: `${ACC}55`}}>
+      <div className={`font-display font-bold stat-num ${isText?'text-base text-cream-100':'text-3xl md:text-4xl'}`}
+           style={isText?{}:{color: ACC}}>
+        {value}{suffix && <span className="text-sm text-cream-200/50 ml-1">{suffix}</span>}
+      </div>
+      <div className="text-xs tracking-widest uppercase text-cream-200/50 mt-1">{label}</div>
+    </div>
+  );
+}
+
+/* ---------- SECTION HEADER ---------- */
+function SectionHeader({ eyebrow, title, desc }) {
+  return (
+    <div className="max-w-3xl">
+      <div className="inline-flex items-center gap-2 mb-4">
+        <div className="w-8 h-px" style={{background: ACC}}/>
+        <span className="text-xs tracking-[0.3em] uppercase" style={{color: ACC}}>{eyebrow}</span>
+      </div>
+      <h2 className="font-display text-3xl md:text-5xl font-bold text-cream-50 leading-tight">{title}</h2>
+      {desc && <p className="mt-5 text-base md:text-lg text-cream-200/70 leading-relaxed">{desc}</p>}
+    </div>
+  );
+}
+
+/* ---------- MODULES ---------- */
+function ModulesSection() {
+  const [open, setOpen] = useState(0);
+  return (
+    <section id="modules" className="relative py-28 bg-ink-950">
+      <div className="max-w-7xl mx-auto px-6 lg:px-10">
+        <SectionHeader
+          eyebrow="Six Core Modules"
+          title="6 大核心模块"
+          desc="从广撒网到精准打击，从平台依赖到多渠道并行 —— 每一个模块都对应新手上台阶最容易卡住的关卡。"
+        />
+        <div className="mt-14 space-y-4">
+          {D.modules.map((m, i) => {
+            const isOpen = open === i;
+            return (
+              <div key={i} className="rounded-2xl border transition-all overflow-hidden"
+                   style={isOpen ? {borderColor: `${ACC}66`, background: ACC_SOFT} : {borderColor: 'rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.02)'}}>
+                <button onClick={()=>setOpen(isOpen?-1:i)} className="w-full text-left p-6 md:p-8">
+                  <div className="flex items-start gap-5">
+                    <div className="w-12 h-12 rounded-xl flex items-center justify-center font-display font-bold text-lg flex-shrink-0"
+                         style={{background: isOpen?ACC:'rgba(255,255,255,0.05)', color: isOpen?'#050a14':ACC}}>
+                      {String(i+1).padStart(2,'0')}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start justify-between gap-4">
+                        <div>
+                          <div className="font-display text-xl md:text-2xl font-semibold text-cream-50">{m.name}</div>
+                          <div className="text-sm text-cream-200/60 mt-1">{m.desc}</div>
+                        </div>
+                        <div className="flex items-center gap-3 flex-shrink-0">
+                          <span className="text-xs text-cream-200/50 hidden md:inline">{m.points.length} 个知识点</span>
+                          <Icon.chevron className={`w-5 h-5 transition-transform ${isOpen?'rotate-180':''}`} style={{color: isOpen?ACC:'rgba(255,255,255,0.4)'}}/>
+                        </div>
+                      </div>
+                      {isOpen && (
+                        <div className="mt-6 pt-6 border-t animate-fade-up" style={{borderColor: `${ACC}33`}}>
+                          <div className="grid md:grid-cols-2 gap-3">
+                            {m.points.map((p, k) => (
+                              <div key={k} className="flex items-start gap-3 p-3 rounded-lg bg-ink-950/40 border border-white/5">
+                                <Icon.check className="w-4 h-4 mt-1 flex-shrink-0" style={{color: ACC}}/>
+                                <span className="text-sm text-cream-100/90 leading-relaxed">{p}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- CURRICULUM (WEEKS) ---------- */
+function CurriculumSection() {
+  return (
+    <section id="curriculum" className="relative py-28 bg-gradient-to-b from-ink-950 to-ink-900">
+      <div className="absolute inset-0 grid-lines opacity-15"/>
+      <div className="relative max-w-7xl mx-auto px-6 lg:px-10">
+        <SectionHeader
+          eyebrow="Bootcamp Weekly Plan"
+          title={`${D.weeks.length} 周训练营`}
+          desc={`8 周共 ${D.stat.hours} 课时。每周聚焦一个主战场，配套视频 + 作业 + 导师点评 + 实战复盘。`}
+        />
+
+        <div className="mt-14 grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+          {D.weeks.map((w, i) => (
+            <div key={i} className="rounded-xl border border-white/8 bg-white/[0.02] p-6 hover:bg-white/[0.04] transition-all card-glow relative">
+              <div className="flex items-center justify-between mb-4">
+                <span className="text-xs tracking-widest uppercase" style={{color: ACC}}>{w.w}</span>
+                <span className="w-2 h-2 rounded-full" style={{background: ACC, boxShadow: `0 0 12px ${ACC}`}}/>
+              </div>
+              <div className="font-display text-lg text-cream-50 mb-4 leading-tight min-h-[54px]">{w.theme}</div>
+              <ul className="space-y-2">
+                {w.tasks.map((t, k) => (
+                  <li key={k} className="flex items-start gap-2 text-sm text-cream-200/75">
+                    <span className="w-1 h-1 rounded-full mt-2 flex-shrink-0" style={{background: ACC}}/>
+                    <span>{t}</span>
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-5 pt-4 border-t border-white/5 flex items-center justify-between text-xs">
+                <span className="text-cream-200/50 flex items-center gap-1">
+                  <Icon.clock className="w-3.5 h-3.5"/> 约 {Math.round(D.stat.hours/D.weeks.length)} 课时
+                </span>
+                <span className="text-cream-200/50 flex items-center gap-1">
+                  <Icon.play className="w-3 h-3"/> 视频 + 作业
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-12 rounded-2xl border p-8 flex items-start gap-5" style={{borderColor: `${ACC}33`, background: ACC_SOFT}}>
+          <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{background: ACC, color: '#050a14'}}>
+            <Icon.target className="w-6 h-6"/>
+          </div>
+          <div>
+            <div className="text-xs tracking-widest uppercase text-cream-200/60 mb-1">毕业标准</div>
+            <div className="text-cream-50 text-lg leading-relaxed">{D.outcome}</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- TOOLS ---------- */
+function ToolsSection() {
+  return (
+    <section className="relative py-28 bg-ink-900">
+      <div className="max-w-7xl mx-auto px-6 lg:px-10">
+        <SectionHeader
+          eyebrow="Recommended Toolkit"
+          title="本层推荐工具"
+          desc="从数据洞察到内容营销，L2 阶段该配齐的工具矩阵。"
+        />
+        <div className="mt-12 flex flex-wrap gap-3">
+          {D.tools.map((t, i) => (
+            <div key={i} className="group px-5 py-3 rounded-lg border border-white/10 bg-white/[0.02] hover:border-gold-400/40 hover:bg-white/[0.04] transition-all">
+              <div className="flex items-center gap-3">
+                <span className="w-2 h-2 rounded-full" style={{background: ACC}}/>
+                <span className="text-cream-100 font-medium">{t}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- FAQ ---------- */
+function FAQSection() {
+  const [open, setOpen] = useState(0);
+  return (
+    <section className="relative py-28 bg-gradient-to-b from-ink-900 to-ink-950">
+      <div className="max-w-4xl mx-auto px-6 lg:px-10">
+        <SectionHeader
+          eyebrow="Frequently Asked"
+          title="新手最常问的问题"
+          desc="第二年最容易困在原地的四个问题，由行业导师给出可执行的答案。"
+        />
+        <div className="mt-12 space-y-3">
+          {D.faq.map((f, i) => {
+            const isOpen = open === i;
+            return (
+              <button key={i} onClick={()=>setOpen(isOpen?-1:i)}
+                className="w-full text-left rounded-xl border transition-all overflow-hidden"
+                style={isOpen?{borderColor: `${ACC}55`, background: ACC_SOFT}:{borderColor: 'rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.02)'}}>
+                <div className="p-5 md:p-6 flex items-start gap-4">
+                  <span className="font-display text-xl font-bold flex-shrink-0" style={{color: isOpen?ACC:'rgba(244,241,232,0.4)'}}>Q{i+1}</span>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-start justify-between gap-4">
+                      <div className={`font-semibold text-base md:text-lg ${isOpen?'text-cream-50':'text-cream-100/85'}`}>{f.q}</div>
+                      <Icon.chevron className={`w-5 h-5 flex-shrink-0 transition-transform ${isOpen?'rotate-180':''}`} style={{color: isOpen?ACC:'rgba(255,255,255,0.4)'}}/>
+                    </div>
+                    {isOpen && (
+                      <div className="mt-4 pt-4 border-t text-cream-200/80 leading-relaxed animate-fade-up" style={{borderColor: `${ACC}33`}}>
+                        {f.a}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- NEXT LEVEL CTA ---------- */
+function NextLevelCTA() {
+  const nextMap = { l1: 'l2', l2: 'l3', l3: null };
+  const prevMap = { l1: null, l2: 'l1', l3: 'l2' };
+  const next = nextMap[TIER_ID] ? window.TIER_DATA[nextMap[TIER_ID]] : null;
+  const prev = prevMap[TIER_ID] ? window.TIER_DATA[prevMap[TIER_ID]] : null;
+  return (
+    <section className="relative py-24 bg-ink-950 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-radial-gold opacity-40"/>
+      <div className="relative max-w-7xl mx-auto px-6 lg:px-10">
+        <div className="grid md:grid-cols-2 gap-6">
+          {prev ? (
+            <a href={`level${prev.id.slice(1)}.html`} className="group rounded-2xl border border-white/8 bg-white/[0.02] p-8 hover:border-gold-400/30 transition-all">
+              <div className="text-xs tracking-widest uppercase text-cream-200/50 mb-3">← 上一层</div>
+              <div className="font-display text-2xl text-cream-50 group-hover:text-gold-300 transition-colors">{prev.title}</div>
+              <div className="text-sm text-cream-200/60 mt-2">{prev.subtitle} · {prev.tag}</div>
+            </a>
+          ) : <div className="hidden md:block"/>}
+          {next ? (
+            <a href={`level${next.id.slice(1)}.html`} className="group rounded-2xl border p-8 transition-all relative overflow-hidden"
+               style={{borderColor: `${next.accentHex}55`, background: next.accentSoft}}>
+              <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full blur-3xl opacity-40" style={{background: next.accentHex}}/>
+              <div className="relative">
+                <div className="text-xs tracking-widest uppercase text-cream-200/50 mb-3 text-right">下一层 →</div>
+                <div className="font-display text-2xl text-cream-50 text-right group-hover:text-gold-300 transition-colors">{next.title}</div>
+                <div className="text-sm text-cream-200/60 mt-2 text-right">{next.subtitle} · {next.tag}</div>
+              </div>
+            </a>
+          ) : (
+            <div className="rounded-2xl border border-gold-400/30 bg-gold-400/5 p-8 text-center flex items-center justify-center">
+              <div>
+                <div className="font-display text-2xl gold-text">已达顶层</div>
+                <div className="text-sm text-cream-200/60 mt-2">恭喜完成完整成长路径</div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- FOOTER ---------- */
+function Footer() {
+  return (
+    <footer className="bg-ink-950 border-t border-white/5 pt-12 pb-6">
+      <div className="max-w-7xl mx-auto px-6 lg:px-10 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center">
+            <Icon.compass className="w-4 h-4 text-ink-950"/>
+          </div>
+          <div>
+            <div className="font-display text-sm font-bold gold-text">外贸领航者</div>
+            <div className="text-[10px] tracking-widest text-cream-200/40 uppercase">TRADE PILOT · 2026</div>
+          </div>
+        </div>
+        <div className="text-xs text-cream-200/40">
+          © 2026 外贸领航者 · 基于业务员/运营/老板/学者圆桌共识构建
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+/* ---------- APP ---------- */
+function App() {
+  return (
+    <div className="bg-ink-950 min-h-screen">
+      <Nav/>
+      <Breadcrumb/>
+      <Hero/>
+      <ModulesSection/>
+      <CurriculumSection/>
+      <ToolsSection/>
+      <FAQSection/>
+      <NextLevelCTA/>
+      <Footer/>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
