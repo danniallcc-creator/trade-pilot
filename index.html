@@ -108,6 +108,31 @@ tailwind.config = {
   .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
   .stat-num { font-variant-numeric: tabular-nums; }
   ::selection { background: rgba(212,175,55,0.4); color: #faf9f5; }
+  /* ---- 动态 HOT 徽标 ---- */
+  .nav-hot { position:relative; display:inline-flex; align-items:center; }
+  .hot-badge {
+    position:absolute; top:-9px; right:-24px;
+    padding:1px 5px 2px; font-size:9px; font-weight:800; line-height:1;
+    letter-spacing:.6px; color:#fff; font-family:'Inter',sans-serif;
+    background:linear-gradient(135deg,#ff4d4f 0%,#ff7a1a 55%,#ffb020 100%);
+    border-radius:6px; white-space:nowrap; pointer-events:none;
+    transform-origin:center bottom;
+    animation:hotPulse 1.4s cubic-bezier(.4,0,.2,1) infinite;
+    box-shadow:0 2px 6px -1px rgba(255,77,79,.55);
+  }
+  .hot-badge::before {
+    content:''; position:absolute; inset:-3px; border-radius:8px;
+    background:linear-gradient(135deg,#ff4d4f,#ffb020);
+    filter:blur(7px); opacity:.55; z-index:-1;
+    animation:hotGlow 1.4s ease-in-out infinite;
+  }
+  .hot-badge::after {
+    content:''; position:absolute; left:-3px; top:50%;
+    width:0; height:0; border:3px solid transparent; border-right-color:#ff4d4f;
+    transform:translateY(-50%);
+  }
+  @keyframes hotPulse { 0%,100%{ transform:scale(1) rotate(-6deg);} 50%{ transform:scale(1.15) rotate(6deg);} }
+  @keyframes hotGlow  { 0%,100%{ opacity:.4; filter:blur(5px);} 50%{ opacity:.85; filter:blur(10px);} }
 </style>
 </head>
 <body>
@@ -393,7 +418,7 @@ function Nav({ active, onGoto }) {
               {active===it.id && <span className="absolute -bottom-2 left-0 right-0 h-px bg-gold-400"/>}
             </button>
           ))}
-          <a href="knowledge-base.html" className="text-sm text-cream-200/70 hover:text-gold-300 transition-all">知识库</a>
+          <a href="knowledge-base.html" className="nav-hot text-sm text-cream-200/70 hover:text-gold-300 transition-all">知识库<span className="hot-badge">HOT</span></a>
         </nav>
         <button onClick={()=>onGoto('tiers')}
           className="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-md bg-gold-400 text-ink-950 text-sm font-semibold hover:bg-gold-300 transition-all shadow-gold-glow">

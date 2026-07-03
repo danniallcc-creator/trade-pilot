@@ -14,6 +14,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <script src="_shared.js"></script>
 <script src="_samples.js"></script>
+<style>
+.nav-hot{position:relative;display:inline-flex;align-items:center;}
+.hot-badge{position:absolute;top:-9px;right:-24px;padding:1px 5px 2px;font-size:9px;font-weight:800;line-height:1;letter-spacing:.6px;color:#fff;font-family:'Inter',sans-serif;background:linear-gradient(135deg,#ff4d4f 0%,#ff7a1a 55%,#ffb020 100%);border-radius:6px;white-space:nowrap;pointer-events:none;transform-origin:center bottom;animation:hotPulse 1.4s cubic-bezier(.4,0,.2,1) infinite;box-shadow:0 2px 6px -1px rgba(255,77,79,.55);}
+.hot-badge::before{content:'';position:absolute;inset:-3px;border-radius:8px;background:linear-gradient(135deg,#ff4d4f,#ffb020);filter:blur(7px);opacity:.55;z-index:-1;animation:hotGlow 1.4s ease-in-out infinite;}
+.hot-badge::after{content:'';position:absolute;left:-3px;top:50%;width:0;height:0;border:3px solid transparent;border-right-color:#ff4d4f;transform:translateY(-50%);}
+@keyframes hotPulse{0%,100%{transform:scale(1) rotate(-6deg);}50%{transform:scale(1.15) rotate(6deg);}}
+@keyframes hotGlow{0%,100%{opacity:.4;filter:blur(5px);}50%{opacity:.85;filter:blur(10px);}}
+</style>
 </head>
 <body>
 <div id="root"></div>
@@ -59,13 +67,13 @@ function Nav() {
           </div>
         </a>
         <nav className="hidden md:flex items-center gap-6 text-sm">
-          <a href="level1.html" className={`transition-colors ${TIER_ID==='l1'?'text-gold-300':'text-cream-200/70 hover:text-cream-50'}`}>L1 · 小白</a>
-          <a href="level2.html" className={`transition-colors ${TIER_ID==='l2'?'text-gold-300':'text-cream-200/70 hover:text-cream-50'}`}>L2 · 新手</a>
-          <a href="level3.html" className={`transition-colors ${TIER_ID==='l3'?'text-gold-300':'text-cream-200/70 hover:text-cream-50'}`}>L3 · 高手</a>
+          <a href="level1.html" className={`nav-hot transition-colors ${TIER_ID==='l1'?'text-gold-300':'text-cream-200/70 hover:text-cream-50'}`}>L1 · 小白<span className="hot-badge">HOT</span></a>
+          <a href="level2.html" className={`nav-hot transition-colors ${TIER_ID==='l2'?'text-gold-300':'text-cream-200/70 hover:text-cream-50'}`}>L2 · 新手<span className="hot-badge">HOT</span></a>
+          <a href="level3.html" className={`nav-hot transition-colors ${TIER_ID==='l3'?'text-gold-300':'text-cream-200/70 hover:text-cream-50'}`}>L3 · 高手<span className="hot-badge">HOT</span></a>
           <span className="w-px h-4 bg-white/10"/>
           <a href="index.html#tools" className="text-cream-200/70 hover:text-cream-50 transition-colors">工具库</a>
           <a href="index.html#panel" className="text-cream-200/70 hover:text-cream-50 transition-colors">专家圆桌</a>
-          <a href="knowledge-base.html" className="text-cream-200/70 hover:text-cream-50 transition-colors">知识库</a>
+          <a href="knowledge-base.html" className="nav-hot text-cream-200/70 hover:text-cream-50 transition-colors">知识库<span className="hot-badge">HOT</span></a>
         </nav>
         <a href="index.html" className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-white/10 text-cream-100 text-sm hover:bg-white/5 transition-all">
           <Icon.arrowLeft className="w-4 h-4"/> 返回首页

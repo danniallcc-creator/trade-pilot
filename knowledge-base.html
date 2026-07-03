@@ -64,6 +64,39 @@ tailwind.config = {
   ::-webkit-scrollbar-thumb { background:rgba(212,175,55,.25); border-radius:4px; }
   ::-webkit-scrollbar-thumb:hover { background:rgba(212,175,55,.5); }
   mark.hit { background:#d4af37; color:#050a14; padding:0 .15rem; border-radius:.15rem; }
+  /* ---- 动态 HOT 徽标（首页/L1/L2/L3/知识库 复用） ---- */
+  .nav-hot { position:relative; display:inline-flex; align-items:center; }
+  .hot-badge {
+    position:absolute; top:-9px; right:-24px;
+    padding:1px 5px 2px; font-size:9px; font-weight:800; line-height:1;
+    letter-spacing:.6px; color:#fff; font-family:'Inter',sans-serif;
+    background:linear-gradient(135deg,#ff4d4f 0%,#ff7a1a 55%,#ffb020 100%);
+    border-radius:6px; white-space:nowrap; pointer-events:none;
+    transform-origin:center bottom;
+    animation:hotPulse 1.4s cubic-bezier(.4,0,.2,1) infinite;
+    box-shadow:0 2px 6px -1px rgba(255,77,79,.55);
+  }
+  .hot-badge::before {
+    content:''; position:absolute; inset:-3px;
+    border-radius:8px;
+    background:linear-gradient(135deg,#ff4d4f,#ffb020);
+    filter:blur(7px); opacity:.55; z-index:-1;
+    animation:hotGlow 1.4s ease-in-out infinite;
+  }
+  .hot-badge::after {
+    content:''; position:absolute; left:-3px; top:50%;
+    width:0; height:0;
+    border:3px solid transparent; border-right-color:#ff4d4f;
+    transform:translateY(-50%);
+  }
+  @keyframes hotPulse {
+    0%,100% { transform:scale(1) rotate(-6deg); }
+    50%     { transform:scale(1.15) rotate(6deg); }
+  }
+  @keyframes hotGlow {
+    0%,100% { opacity:.4;  filter:blur(5px); }
+    50%     { opacity:.85; filter:blur(10px); }
+  }
 </style>
 </head>
 <body>
@@ -82,10 +115,10 @@ tailwind.config = {
     </a>
     <nav class="hidden md:flex items-center gap-6 text-sm text-cream-200/70">
       <a href="index.html" class="hover:text-gold-300 transition">首页</a>
-      <a href="level1.html" class="hover:text-gold-300 transition">L1 小白</a>
-      <a href="level2.html" class="hover:text-gold-300 transition">L2 新手</a>
-      <a href="level3.html" class="hover:text-gold-300 transition">L3 高手</a>
-      <a href="knowledge-base.html" class="text-gold-300 border-b border-gold-400 pb-0.5">知识库</a>
+      <a href="level1.html" class="nav-hot hover:text-gold-300 transition">L1 小白<span class="hot-badge">HOT</span></a>
+      <a href="level2.html" class="nav-hot hover:text-gold-300 transition">L2 新手<span class="hot-badge">HOT</span></a>
+      <a href="level3.html" class="nav-hot hover:text-gold-300 transition">L3 高手<span class="hot-badge">HOT</span></a>
+      <a href="knowledge-base.html" class="nav-hot text-gold-300 border-b border-gold-400 pb-0.5">知识库<span class="hot-badge">HOT</span></a>
     </nav>
     <div class="hidden md:block relative">
       <input id="kb-search" type="text" placeholder="搜索术语 / 单证 / 流程..."
