@@ -13,6 +13,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <script src="_shared.js"></script>
+<script src="_samples.js"></script>
 </head>
 <body>
 <div id="root"></div>
@@ -38,6 +39,9 @@ const Icon = {
   clock: (p) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...p}><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>,
   download: (p) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...p}><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>,
   play: (p) => <svg viewBox="0 0 24 24" fill="currentColor" {...p}><polygon points="6 4 20 12 6 20 6 4"/></svg>,
+  chat: (p) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...p}><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>,
+  grid: (p) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...p}><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>,
+  code: (p) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...p}><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>,
 };
 
 /* ---------- NAV ---------- */
@@ -294,6 +298,221 @@ function ModulesSection() {
   );
 }
 
+
+/* ---------- SAMPLE CASE (virtual end-to-end deliverable per week) ---------- */
+function SampleArtifact({a}) {
+  if (a.type === 'email') {
+    return (
+      <div className="rounded-lg border overflow-hidden bg-ink-950/60" style={{borderColor: `${ACC}33`}}>
+        <div className="px-4 py-2.5 border-b flex items-center gap-2 text-[11px]" style={{borderColor: `${ACC}22`, background: `${ACC}0a`}}>
+          <span className="inline-flex w-2 h-2 rounded-full" style={{background: '#ff5f57'}}/>
+          <span className="inline-flex w-2 h-2 rounded-full" style={{background: '#febc2e'}}/>
+          <span className="inline-flex w-2 h-2 rounded-full" style={{background: '#28c840'}}/>
+          <span className="ml-2 text-cream-200/50 tracking-wider uppercase">Email · {a.label}</span>
+        </div>
+        <div className="px-4 py-3 text-[12px] leading-relaxed text-cream-100/85 border-b space-y-1" style={{borderColor: `${ACC}18`}}>
+          {a.from && <div><span className="text-cream-200/40 w-14 inline-block">From</span><span className="text-cream-50">{a.from}</span></div>}
+          {a.to && <div><span className="text-cream-200/40 w-14 inline-block">To</span><span className="text-cream-50">{a.to}</span></div>}
+          {a.cc && <div><span className="text-cream-200/40 w-14 inline-block">Cc</span><span className="text-cream-50">{a.cc}</span></div>}
+          {a.subject && <div><span className="text-cream-200/40 w-14 inline-block">Subject</span><span className="text-cream-50 font-medium">{a.subject}</span></div>}
+        </div>
+        <pre className="px-4 py-4 text-[12.5px] leading-[1.75] text-cream-100/90 whitespace-pre-wrap font-sans">{a.content}</pre>
+      </div>
+    );
+  }
+  if (a.type === 'document') {
+    return (
+      <div className="rounded-lg border overflow-hidden" style={{borderColor: `${ACC}33`, background: 'rgba(250, 249, 245, 0.03)'}}>
+        <div className="px-4 py-2.5 border-b flex items-center gap-2 text-[11px] tracking-wider uppercase" style={{borderColor: `${ACC}22`, background: `${ACC}0a`, color: ACC}}>
+          <Icon.book className="w-3.5 h-3.5"/>Document · {a.label}
+        </div>
+        <div className="divide-y" style={{borderColor: `${ACC}18`}}>
+          {a.rows.map((r, i) => (
+            <div key={i} className="grid grid-cols-[140px_1fr] gap-3 px-4 py-2.5 text-[12.5px]" style={{borderColor: `${ACC}12`, borderTopWidth: i===0?0:1}}>
+              <div className="text-cream-200/50 font-medium">{r[0]}</div>
+              <div className="text-cream-100/90 leading-relaxed">{r[1]}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+  if (a.type === 'checklist') {
+    return (
+      <div className="rounded-lg border p-4" style={{borderColor: `${ACC}33`, background: `${ACC}08`}}>
+        <div className="text-[11px] tracking-wider uppercase mb-3" style={{color: ACC}}>Checklist · {a.label}</div>
+        <ul className="space-y-2">
+          {a.items.map((it, i) => (
+            <li key={i} className="flex items-start gap-3 text-[13px]">
+              <span className="mt-0.5 w-4 h-4 rounded flex items-center justify-center flex-shrink-0 border" style={{borderColor: it.done?ACC:'rgba(255,255,255,0.2)', background: it.done?ACC:'transparent'}}>
+                {it.done && <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#050a14" strokeWidth="3.5"><path d="M5 12l5 5L20 7"/></svg>}
+              </span>
+              <span className={it.done ? 'text-cream-100/85' : 'text-cream-200/60'}>{it.text}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
+  if (a.type === 'chat') {
+    return (
+      <div className="rounded-lg border overflow-hidden" style={{borderColor: `${ACC}33`, background: '#0a1428'}}>
+        <div className="px-4 py-2.5 border-b flex items-center gap-2 text-[11px] tracking-wider uppercase" style={{borderColor: `${ACC}22`, background: `${ACC}0a`, color: ACC}}>
+          <Icon.chat className="w-3.5 h-3.5"/>WhatsApp · {a.label}
+        </div>
+        <div className="p-4 space-y-3">
+          {a.messages.map((m, i) => {
+            const mine = m.from === 'me';
+            return (
+              <div key={i} className={`flex ${mine?'justify-end':'justify-start'}`}>
+                <div className={`max-w-[80%] rounded-2xl px-3.5 py-2.5 text-[12.5px] leading-relaxed whitespace-pre-wrap ${mine?'rounded-br-sm':'rounded-bl-sm'}`}
+                     style={{background: mine?`${ACC}22`:'rgba(255,255,255,0.06)', color: '#f4f1e8', border: `1px solid ${mine?ACC+'33':'rgba(255,255,255,0.08)'}`}}>
+                  <div className="text-[10px] mb-1 flex items-center gap-2" style={{color: mine?ACC:'rgba(244,241,232,0.5)'}}>
+                    <span className="font-semibold">{m.name}</span><span>· {m.time}</span>
+                  </div>
+                  <div>{m.text}</div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
+  if (a.type === 'note') {
+    return (
+      <div className="rounded-lg border p-4" style={{borderColor: `${ACC}33`, background: 'rgba(212, 175, 55, 0.04)'}}>
+        <div className="text-[11px] tracking-wider uppercase mb-2" style={{color: ACC}}>Note · {a.label}</div>
+        <pre className="text-[12.5px] leading-[1.8] text-cream-100/90 whitespace-pre-wrap font-sans">{a.content}</pre>
+      </div>
+    );
+  }
+  if (a.type === 'table') {
+    return (
+      <div className="rounded-lg border overflow-hidden" style={{borderColor: `${ACC}33`}}>
+        <div className="px-4 py-2.5 border-b flex items-center gap-2 text-[11px] tracking-wider uppercase" style={{borderColor: `${ACC}22`, background: `${ACC}0a`, color: ACC}}>
+          <Icon.grid className="w-3.5 h-3.5"/>Table · {a.label}
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full text-[12.5px]">
+            <thead>
+              <tr style={{background: `${ACC}0a`}}>
+                {a.headers.map((h, i)=><th key={i} className="text-left px-4 py-2 font-medium text-cream-200/70 border-b" style={{borderColor: `${ACC}22`}}>{h}</th>)}
+              </tr>
+            </thead>
+            <tbody>
+              {a.rows.map((r, i)=>(
+                <tr key={i} className="border-b" style={{borderColor: `${ACC}14`}}>
+                  {r.map((c, j)=><td key={j} className="px-4 py-2 text-cream-100/85">{c}</td>)}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    );
+  }
+  if (a.type === 'code') {
+    return (
+      <div className="rounded-lg border overflow-hidden bg-ink-950" style={{borderColor: `${ACC}33`}}>
+        <div className="px-4 py-2.5 border-b flex items-center gap-2 text-[11px] tracking-wider uppercase" style={{borderColor: `${ACC}22`, background: `${ACC}0a`, color: ACC}}>
+          <Icon.code className="w-3.5 h-3.5"/>{a.lang || 'Snippet'} · {a.label}
+        </div>
+        <pre className="px-4 py-4 text-[12px] leading-[1.7] text-cream-100/85 whitespace-pre overflow-x-auto"><code>{a.content}</code></pre>
+      </div>
+    );
+  }
+  return null;
+}
+
+function SampleCase({sample}) {
+  const [step, setStep] = useState(0);
+  if (!sample) return null;
+  const t = sample.timeline[step] || {};
+  return (
+    <div className="rounded-2xl border overflow-hidden" style={{borderColor: `${ACC}44`, background: 'linear-gradient(135deg, rgba(5,10,20,0.4), rgba(212,175,55,0.03))'}}>
+      <div className="p-5 md:p-6 border-b" style={{borderColor: `${ACC}22`, background: `${ACC}08`}}>
+        <div className="flex items-start gap-3">
+          <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style={{background: ACC, color: '#050a14'}}>
+            <Icon.book className="w-5 h-5"/>
+          </div>
+          <div className="flex-1 min-w-0">
+            <div className="text-[10px] tracking-[0.3em] uppercase mb-1" style={{color: ACC}}>Sample Case · 交付样板（虚拟案例）</div>
+            <div className="font-display text-base md:text-lg font-semibold text-cream-50 leading-tight">{sample.title}</div>
+            {sample.scenario && <div className="mt-2 text-[13px] text-cream-200/70 leading-relaxed">{sample.scenario}</div>}
+          </div>
+        </div>
+        {sample.meta && (
+          <div className="mt-4 grid sm:grid-cols-2 gap-x-6 gap-y-1.5 text-[12px] text-cream-200/75">
+            {Object.entries(sample.meta).map(([k, v]) => (
+              <div key={k} className="flex gap-2">
+                <span className="text-cream-200/45 shrink-0">·</span>
+                <span>{v}</span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="p-5 md:p-6">
+        <div className="flex items-center gap-2 mb-4 flex-wrap">
+          {sample.timeline.map((tt, i) => (
+            <button key={i} onClick={()=>setStep(i)}
+              className="px-3 py-1.5 rounded-full text-[11px] tracking-wide font-medium transition-all"
+              style={i===step
+                ? {background: ACC, color: '#050a14', boxShadow: `0 0 12px ${ACC}55`}
+                : {background: 'rgba(255,255,255,0.04)', color: 'rgba(244,241,232,0.7)', border: `1px solid ${ACC}22`}}>
+              {tt.day}
+            </button>
+          ))}
+        </div>
+
+        <div className="rounded-xl border p-4 md:p-5 mb-4" style={{borderColor: `${ACC}33`, background: 'rgba(255,255,255,0.02)'}}>
+          <div className="flex items-baseline gap-3 flex-wrap">
+            <span className="text-[10px] tracking-[0.3em] uppercase" style={{color: ACC}}>{t.day}</span>
+            <span className="text-sm font-medium text-cream-100/85">{t.phase}</span>
+          </div>
+          <div className="mt-2 font-display text-lg text-cream-50 leading-tight">{t.title}</div>
+          {t.actions && t.actions.length > 0 && (
+            <ul className="mt-4 space-y-1.5">
+              {t.actions.map((ac, i) => (
+                <li key={i} className="flex items-start gap-2 text-[13px] text-cream-100/85 leading-relaxed">
+                  <span className="mt-1.5 w-1 h-1 rounded-full flex-shrink-0" style={{background: ACC}}/>
+                  <span>{ac}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+        {t.artifacts && t.artifacts.length > 0 && (
+          <div className="space-y-4">
+            {t.artifacts.map((a, i) => <SampleArtifact key={i} a={a}/>)}
+          </div>
+        )}
+      </div>
+
+      {sample.outcome && (
+        <div className="p-5 md:p-6 border-t" style={{borderColor: `${ACC}22`, background: `${ACC}0a`}}>
+          <div className="text-[10px] tracking-[0.3em] uppercase mb-2" style={{color: ACC}}>Outcome · 结果 & 沉淀</div>
+          <div className="text-[13px] text-cream-100/90 leading-relaxed mb-2">{sample.outcome.result}</div>
+          {sample.outcome.grade && <div className="text-[12px] text-cream-200/60 mb-3">{sample.outcome.grade}</div>}
+          {sample.outcome.lessons && (
+            <ul className="space-y-1.5">
+              {sample.outcome.lessons.map((ls, i) => (
+                <li key={i} className="flex items-start gap-2 text-[12.5px] text-cream-100/85 leading-relaxed">
+                  <span className="font-display text-xs font-bold flex-shrink-0 mt-0.5" style={{color: ACC}}>#{i+1}</span>
+                  <span>{ls}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
 /* ---------- CURRICULUM (WEEKS) ---------- */
 function CurriculumSection() {
   const [open, setOpen] = useState(0);
@@ -392,6 +611,10 @@ function CurriculumSection() {
                                 <div className="text-cream-50 text-sm md:text-base leading-relaxed">{w.deliverable}</div>
                               </div>
                             </div>
+                          )}
+
+                          {window.TIER_SAMPLES && window.TIER_SAMPLES[TIER_ID] && window.TIER_SAMPLES[TIER_ID][i] && (
+                            <SampleCase sample={window.TIER_SAMPLES[TIER_ID][i]}/>
                           )}
                         </div>
                       )}
