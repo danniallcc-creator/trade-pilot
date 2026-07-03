@@ -199,9 +199,9 @@ function ModulesSection() {
     <section id="modules" className="relative py-28 bg-ink-950">
       <div className="max-w-7xl mx-auto px-6 lg:px-10">
         <SectionHeader
-          eyebrow="Six Core Modules"
-          title="6 大核心模块"
-          desc="每一个模块都对应真实工作场景中的高频难题。点击展开，看完整知识点清单。"
+          eyebrow="Six Core Modules · Methodology & Steps"
+          title="6 大核心模块 × 方法论 × 提升步骤"
+          desc="每个模块都拆成三部分：要学什么 / 用什么方法学 / 一步步怎么练。点击卡片展开完整训练路径。"
         />
         <div className="mt-14 space-y-4">
           {D.modules.map((m, i) => {
@@ -222,20 +222,64 @@ function ModulesSection() {
                           <div className="text-sm text-cream-200/60 mt-1">{m.desc}</div>
                         </div>
                         <div className="flex items-center gap-3 flex-shrink-0">
-                          <span className="text-xs text-cream-200/50 hidden md:inline">{m.points.length} 个知识点</span>
+                          <span className="text-xs text-cream-200/50 hidden md:inline">{m.points.length}·{(m.methodology||[]).length}·{(m.steps||[]).length}</span>
                           <Icon.chevron className={`w-5 h-5 transition-transform ${isOpen?'rotate-180':''}`} style={{color: isOpen?ACC:'rgba(255,255,255,0.4)'}}/>
                         </div>
                       </div>
                       {isOpen && (
-                        <div className="mt-6 pt-6 border-t animate-fade-up" style={{borderColor: `${ACC}33`}}>
-                          <div className="grid md:grid-cols-2 gap-3">
-                            {m.points.map((p, k) => (
-                              <div key={k} className="flex items-start gap-3 p-3 rounded-lg bg-ink-950/40 border border-white/5">
-                                <Icon.check className="w-4 h-4 mt-1 flex-shrink-0" style={{color: ACC}}/>
-                                <span className="text-sm text-cream-100/90 leading-relaxed">{p}</span>
-                              </div>
-                            ))}
+                        <div className="mt-6 pt-6 border-t animate-fade-up space-y-6" style={{borderColor: `${ACC}33`}}>
+                          <div>
+                            <div className="flex items-center gap-2 mb-3">
+                              <span className="text-[10px] tracking-[0.3em] uppercase" style={{color: ACC}}>Knowledge · 知识点</span>
+                              <span className="text-xs text-cream-200/40">{m.points.length} 项</span>
+                            </div>
+                            <div className="grid md:grid-cols-2 gap-2.5">
+                              {m.points.map((p, k) => (
+                                <div key={k} className="flex items-start gap-3 p-3 rounded-lg bg-ink-950/40 border border-white/5">
+                                  <Icon.check className="w-4 h-4 mt-1 flex-shrink-0" style={{color: ACC}}/>
+                                  <span className="text-sm text-cream-100/90 leading-relaxed">{p}</span>
+                                </div>
+                              ))}
+                            </div>
                           </div>
+
+                          {m.methodology && m.methodology.length > 0 && (
+                            <div>
+                              <div className="flex items-center gap-2 mb-3">
+                                <span className="text-[10px] tracking-[0.3em] uppercase" style={{color: ACC}}>Methodology · 成长方法论</span>
+                                <span className="text-xs text-cream-200/40">{m.methodology.length} 条</span>
+                              </div>
+                              <div className="grid md:grid-cols-2 gap-2.5">
+                                {m.methodology.map((mm, k) => (
+                                  <div key={k} className="flex items-start gap-3 p-3 rounded-lg border" style={{background: `${ACC}0f`, borderColor: `${ACC}33`}}>
+                                    <span className="font-display font-bold text-xs mt-0.5 flex-shrink-0" style={{color: ACC}}>M{k+1}</span>
+                                    <span className="text-sm text-cream-100/90 leading-relaxed">{mm}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
+                          {m.steps && m.steps.length > 0 && (
+                            <div>
+                              <div className="flex items-center gap-2 mb-3">
+                                <span className="text-[10px] tracking-[0.3em] uppercase" style={{color: ACC}}>Progression · 提升步骤</span>
+                                <span className="text-xs text-cream-200/40">{m.steps.length} 步</span>
+                              </div>
+                              <div className="relative pl-4">
+                                <div className="absolute left-[7px] top-2 bottom-2 w-px" style={{background: `${ACC}55`}}/>
+                                <ol className="space-y-2.5">
+                                  {m.steps.map((s, k) => (
+                                    <li key={k} className="relative flex items-start gap-3 p-3 rounded-lg bg-ink-950/50 border border-white/5">
+                                      <span className="absolute -left-4 top-3 w-3 h-3 rounded-full ring-2 ring-ink-950" style={{background: ACC}}/>
+                                      <span className="font-display text-xs font-bold flex-shrink-0 mt-0.5" style={{color: ACC}}>Step {k+1}</span>
+                                      <span className="text-sm text-cream-100/90 leading-relaxed flex-1">{s}</span>
+                                    </li>
+                                  ))}
+                                </ol>
+                              </div>
+                            </div>
+                          )}
                         </div>
                       )}
                     </div>
@@ -252,42 +296,111 @@ function ModulesSection() {
 
 /* ---------- CURRICULUM (WEEKS) ---------- */
 function CurriculumSection() {
+  const [open, setOpen] = useState(0);
   return (
     <section id="curriculum" className="relative py-28 bg-gradient-to-b from-ink-950 to-ink-900">
       <div className="absolute inset-0 grid-lines opacity-15"/>
       <div className="relative max-w-7xl mx-auto px-6 lg:px-10">
         <SectionHeader
-          eyebrow="Bootcamp Weekly Plan"
-          title={`${D.weeks.length} 周训练营`}
-          desc={`每周聚焦一个主题，配套 ${Math.round(D.stat.hours/D.weeks.length)} 课时视频 + 作业 + 导师点评。`}
+          eyebrow="Bootcamp Weekly Plan · Lessons & Homework"
+          title={`${D.weeks.length} 周训练营 × 每周课程 × 作业 × 交付物`}
+          desc={`每周聚焦一个主题，配套课时视频 + 结构化作业 + 可提交的交付物；点击展开查看完整课表。`}
         />
 
-        <div className="mt-14 grid md:grid-cols-2 lg:grid-cols-4 gap-5">
-          {D.weeks.map((w, i) => (
-            <div key={i} className="rounded-xl border border-white/8 bg-white/[0.02] p-6 hover:bg-white/[0.04] transition-all card-glow relative">
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-xs tracking-widest uppercase" style={{color: ACC}}>{w.w}</span>
-                <span className="w-2 h-2 rounded-full" style={{background: ACC, boxShadow: `0 0 12px ${ACC}`}}/>
+        <div className="mt-14 space-y-4">
+          {D.weeks.map((w, i) => {
+            const isOpen = open === i;
+            const lessons = w.lessons || [];
+            const homework = w.homework || [];
+            const totalMin = lessons.reduce((s, l) => s + (l.min || 0), 0);
+            return (
+              <div key={i} className="rounded-2xl border transition-all overflow-hidden"
+                   style={isOpen ? {borderColor: `${ACC}66`, background: ACC_SOFT} : {borderColor: 'rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.02)'}}>
+                <button onClick={()=>setOpen(isOpen?-1:i)} className="w-full text-left p-6 md:p-7">
+                  <div className="flex items-start gap-5">
+                    <div className="w-16 flex-shrink-0">
+                      <div className="text-[10px] tracking-[0.25em] uppercase mb-1" style={{color: ACC}}>{w.w}</div>
+                      <div className="w-2 h-2 rounded-full" style={{background: ACC, boxShadow: `0 0 12px ${ACC}`}}/>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start justify-between gap-4">
+                        <div className="min-w-0">
+                          <div className="font-display text-lg md:text-xl font-semibold text-cream-50 leading-tight">{w.theme}</div>
+                          <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-cream-200/60">
+                            <span className="flex items-center gap-1"><Icon.play className="w-3 h-3"/> {lessons.length} 节课</span>
+                            {totalMin>0 && <span className="flex items-center gap-1"><Icon.clock className="w-3 h-3"/> ~{Math.round(totalMin/60*10)/10} 小时</span>}
+                            <span className="flex items-center gap-1"><Icon.check className="w-3 h-3"/> {homework.length} 项作业</span>
+                            {w.deliverable && <span className="flex items-center gap-1"><Icon.target className="w-3 h-3"/> 1 份交付物</span>}
+                          </div>
+                        </div>
+                        <Icon.chevron className={`w-5 h-5 flex-shrink-0 transition-transform ${isOpen?'rotate-180':''}`} style={{color: isOpen?ACC:'rgba(255,255,255,0.4)'}}/>
+                      </div>
+
+                      {isOpen && (
+                        <div className="mt-6 pt-6 border-t space-y-6 animate-fade-up" style={{borderColor: `${ACC}33`}}>
+                          {w.tasks && w.tasks.length>0 && (
+                            <div>
+                              <div className="text-[10px] tracking-[0.3em] uppercase mb-3" style={{color: ACC}}>Focus · 本周重点</div>
+                              <div className="flex flex-wrap gap-2">
+                                {w.tasks.map((t, k)=>(
+                                  <span key={k} className="px-3 py-1.5 rounded-full text-xs bg-ink-950/40 border border-white/10 text-cream-100/85">{t}</span>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
+                          {lessons.length>0 && (
+                            <div>
+                              <div className="flex items-center gap-2 mb-3">
+                                <span className="text-[10px] tracking-[0.3em] uppercase" style={{color: ACC}}>Lessons · 课程清单</span>
+                                <span className="text-xs text-cream-200/40">{lessons.length} 节</span>
+                              </div>
+                              <div className="grid md:grid-cols-2 gap-2">
+                                {lessons.map((l, k)=>(
+                                  <div key={k} className="flex items-start gap-3 p-3 rounded-lg bg-ink-950/50 border border-white/5">
+                                    <span className="font-display text-xs font-bold flex-shrink-0 mt-0.5 w-10" style={{color: ACC}}>{l.no}</span>
+                                    <span className="text-sm text-cream-100/90 leading-relaxed flex-1">{l.title}</span>
+                                    <span className="text-[11px] text-cream-200/50 flex-shrink-0 mt-0.5 tabular-nums">{l.min}min</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
+                          {homework.length>0 && (
+                            <div>
+                              <div className="flex items-center gap-2 mb-3">
+                                <span className="text-[10px] tracking-[0.3em] uppercase" style={{color: ACC}}>Homework · 作业任务</span>
+                                <span className="text-xs text-cream-200/40">{homework.length} 项</span>
+                              </div>
+                              <div className="space-y-2">
+                                {homework.map((h, k)=>(
+                                  <div key={k} className="flex items-start gap-3 p-3 rounded-lg border" style={{background: `${ACC}0f`, borderColor: `${ACC}33`}}>
+                                    <span className="font-display font-bold text-xs mt-0.5 flex-shrink-0" style={{color: ACC}}>HW{k+1}</span>
+                                    <span className="text-sm text-cream-100/90 leading-relaxed">{h}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
+                          {w.deliverable && (
+                            <div className="rounded-xl border p-4 flex items-start gap-3" style={{borderColor: `${ACC}55`, background: ACC_SOFT}}>
+                              <Icon.target className="w-5 h-5 flex-shrink-0 mt-0.5" style={{color: ACC}}/>
+                              <div>
+                                <div className="text-[10px] tracking-[0.3em] uppercase mb-1" style={{color: ACC}}>Deliverable · 交付物</div>
+                                <div className="text-cream-50 text-sm md:text-base leading-relaxed">{w.deliverable}</div>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </button>
               </div>
-              <div className="font-display text-lg text-cream-50 mb-4 leading-tight min-h-[54px]">{w.theme}</div>
-              <ul className="space-y-2">
-                {w.tasks.map((t, k) => (
-                  <li key={k} className="flex items-start gap-2 text-sm text-cream-200/75">
-                    <span className="w-1 h-1 rounded-full mt-2 flex-shrink-0" style={{background: ACC}}/>
-                    <span>{t}</span>
-                  </li>
-                ))}
-              </ul>
-              <div className="mt-5 pt-4 border-t border-white/5 flex items-center justify-between text-xs">
-                <span className="text-cream-200/50 flex items-center gap-1">
-                  <Icon.clock className="w-3.5 h-3.5"/> {Math.round(D.stat.hours/D.weeks.length)} 课时
-                </span>
-                <span className="text-cream-200/50 flex items-center gap-1">
-                  <Icon.play className="w-3 h-3"/> 视频 + 作业
-                </span>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         <div className="mt-12 rounded-2xl border p-8 flex items-start gap-5" style={{borderColor: `${ACC}33`, background: ACC_SOFT}}>
