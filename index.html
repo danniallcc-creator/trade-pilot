@@ -393,6 +393,7 @@ function Nav({ active, onGoto }) {
               {active===it.id && <span className="absolute -bottom-2 left-0 right-0 h-px bg-gold-400"/>}
             </button>
           ))}
+          <a href="knowledge-base.html" className="text-sm text-cream-200/70 hover:text-gold-300 transition-all">知识库</a>
         </nav>
         <button onClick={()=>onGoto('tiers')}
           className="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-md bg-gold-400 text-ink-950 text-sm font-semibold hover:bg-gold-300 transition-all shadow-gold-glow">
